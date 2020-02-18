@@ -1,0 +1,57 @@
+System detail 
+
+CPU:          Intel i7-8700K                              x1
+MotherBoard:  Asus ROG Maximus X HERO - Z370              x1
+RAM:          Kingston 16GB DDR4-2666 - KVR26N19D8/16     x2
+Hardisk:      WD 6TB                  - WD6003FZBX        x1
+GPU:          MSI RTX2080Ti Gaming X TRIO 11G             x1
+Case:         CM MasterBox MB520 RGB                      x1
+Cooler:       CM MasterLiquid ML120L RGB                  x1
+Power:        CM MWE GOLD 750W - 12V/DC-DC+LCC            x1
+Keyboard:     G213 Prodigy RGB                            x1
+Mouse:        G102 Prodigy                                x1
+
+
+Installation Steps
+1.	Install Ubuntu 18.04 System with USB drive
+2.	Remove USB drive and reboot 
+3.	Run “Software updater” and reboot
+4.	Install GPU Driver (Follow https://medium.com/@ywchiu84021121/%E5%9C%A8ubuntu-18-04-%E4%B8%AD%E5%AE%89%E8%A3%9Dnvidia-rtx%E7%B3%BB%E5%88%97%E9%A1%AF%E7%A4%BA%E5%8D%A1%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E8%88%87tensorflow-6eb58a5da818 )
+      a.	sudo apt update
+      b.	sudo apt upgrade
+      c.	sudo apt-get install curl ca-certificates git gnupg2
+      d.	sudo apt-get purge nvidia* 
+      e.	sudo add-apt-repository ppa:graphics-drivers/ppa 
+      f.	sudo apt-get update
+      g.	GoTo “Software & Updates” in ubuntu desktop  “Additional Drivers” Tab
+                i.	To check the latest driver version (Mine is nvidia-driver-435)
+      h.	sudo apt-get install nvidia-driver-435
+      i.	nvidia-smi
+      j.	If nvidia-smi shows no error. It’s done.
+5.	Install Docker 19.03 (I choose Docker-CE version. Follow https://docs.docker.com/v17.09/engine/installation/linux/docker-ce/ubuntu/)
+      a.	sudo apt-get remove docker docker-engine docker.io
+      b.	sudo apt-get update
+      c.	sudo apt-get install \
+          apt-transport-https \
+          ca-certificates \
+          curl \
+          software-properties-common
+      d.	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
+      e.	sudo apt-key fingerprint 0EBFCD88
+      f.	sudo add-apt-repository \
+          "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+          $(lsb_release -cs) \
+          stable"
+      g.	sudo apt-get update
+      h.	sudo apt-get install docker-ce
+      i.	apt-cache madison docker-ce
+                i.	To confirm the version name (My <VERSION> = 5:19.03.6~3-0~ubuntu-bionic)
+      j.	sudo apt-get install docker-ce=<VERSION>
+      k.	sudo docker run hello-world
+6.	Install NVIDIA Docker (Follow https://github.com/NVIDIA/nvidia-docker)
+      a.	distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+      b.	curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+      c.	curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+      d.	sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+      e.	sudo systemctl restart docker
+      f.	docker run --gpus all nvidia/cuda:9.0-base nvidia-smi
