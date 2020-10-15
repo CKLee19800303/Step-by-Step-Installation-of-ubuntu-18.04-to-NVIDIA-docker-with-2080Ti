@@ -28,30 +28,17 @@ Installation Steps
       h.	sudo apt-get install nvidia-driver-435
       i.	nvidia-smi
       j.	If nvidia-smi shows no error. It’s done.
-5.	Install Docker 19.03 (I choose Docker-CE version. Follow https://docs.docker.com/v17.09/engine/installation/linux/docker-ce/ubuntu/)
-      a.	sudo apt-get remove docker docker-engine docker.io
-      b.	sudo apt-get update
-      c.	sudo apt-get install \
-          apt-transport-https \
-          ca-certificates \
-          curl \
-          software-properties-common
-      d.	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
-      e.	sudo apt-key fingerprint 0EBFCD88
-      f.	sudo add-apt-repository \
-          "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-          $(lsb_release -cs) \
-          stable"
-      g.	sudo apt-get update
-      h.	sudo apt-get install docker-ce
-      i.	apt-cache madison docker-ce
-                i.	To confirm the version name (My <VERSION> = 5:19.03.6~3-0~ubuntu-bionic)
-      j.	sudo apt-get install docker-ce=<VERSION>
-      k.	sudo docker run hello-world
-6.	Install NVIDIA Docker (Follow https://github.com/NVIDIA/nvidia-docker)
+5.	Install Docker (Follow https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+      a.	curl https://get.docker.com | sh
+      b.	sudo systemctl start docker && sudo systemctl enable docker
+      c.	sudo groupadd docker
+      d.	sudo usermod -aG docker $USER
+      e.	Log out and log back in so that your group membership is re-evaluated
+      f.	docker run hello-world	
+6.	Install NVIDIA Docker (Follow https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
       a.	distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
       b.	curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
       c.	curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-      d.	sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+      d.	sudo apt-get update && sudo apt-get install -y nvidia-docker2
       e.	sudo systemctl restart docker
-      f.	docker run --gpus all nvidia/cuda:9.0-base nvidia-smi
+      f.	sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
