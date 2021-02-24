@@ -11,11 +11,15 @@ Power:        CM MWE GOLD 750W - 12V/DC-DC+LCC            x1
 Keyboard:     G213 Prodigy RGB                            x1
 Mouse:        G102 Prodigy                                x1
 
+[Upated on Feb 24, 2021]
 
 Installation Steps
-1.	Install Ubuntu 18.04 System with USB drive
-2.	Remove USB drive and reboot 
+1.	Download Ubuntu 20.04 desktop image .iso and use Rufus (latest version) to create bootable USB drives
+2.	Install the Ubuntu system with USB. (Follow https://blog.xuite.net/yh96301/blog/242333268)
 3.	Run “Software updater” and reboot
+
+-------------[Notice] Try to excute nvida-smi in terminal. If nvidia-smi works, you can skip step 4.-----------------
+---------------------------------------------------------------------------------------------------------------------
 4.	Install GPU Driver (Follow https://medium.com/@ywchiu84021121/%E5%9C%A8ubuntu-18-04-%E4%B8%AD%E5%AE%89%E8%A3%9Dnvidia-rtx%E7%B3%BB%E5%88%97%E9%A1%AF%E7%A4%BA%E5%8D%A1%E9%A9%85%E5%8B%95%E7%A8%8B%E5%BC%8F%E8%88%87tensorflow-6eb58a5da818 )
       a.	sudo apt update
       b.	sudo apt upgrade
@@ -28,6 +32,8 @@ Installation Steps
       h.	sudo apt-get install nvidia-driver-435
       i.	nvidia-smi
       j.	If nvidia-smi shows no error. It’s done.
+---------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------
 5.	Install Docker (Follow https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
       a.	curl https://get.docker.com | sh
       b.	sudo systemctl start docker && sudo systemctl enable docker
@@ -35,6 +41,7 @@ Installation Steps
       d.	sudo usermod -aG docker $USER
       e.	Log out and log back in so that your group membership is re-evaluated
       f.	docker run hello-world	
+
 6.	Install NVIDIA Docker (Follow https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
       a.	distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
       b.	curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
